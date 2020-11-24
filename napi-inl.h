@@ -2113,7 +2113,7 @@ inline Buffer<T> Buffer<T>::New(napi_env env,
                                 Finalizer finalizeCallback) {
   napi_value value;
   details::FinalizeData<T, Finalizer>* finalizeData =
-    new details::FinalizeData<T, Finalizer>({ finalizeCallback, nullptr });
+    new details::FinalizeData<T, Finalizer>({ std::move(finalizeCallback), nullptr });
   napi_status status = napi_create_external_buffer(
     env,
     length * sizeof (T),
@@ -2137,7 +2137,7 @@ inline Buffer<T> Buffer<T>::New(napi_env env,
                                 Hint* finalizeHint) {
   napi_value value;
   details::FinalizeData<T, Finalizer, Hint>* finalizeData =
-    new details::FinalizeData<T, Finalizer, Hint>({ finalizeCallback, finalizeHint });
+    new details::FinalizeData<T, Finalizer, Hint>({ std::move(finalizeCallback), finalizeHint });
   napi_status status = napi_create_external_buffer(
     env,
     length * sizeof (T),
